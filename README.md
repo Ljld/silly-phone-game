@@ -27,7 +27,9 @@ npm run dev
 
 ## 📦 Build & Deploy
 
-The game auto-deploys to GitHub Pages on every push to `main` via GitHub Actions.
+The game auto-deploys to GitHub Pages on every push to `main` via GitHub Actions (pushes built files to the `gh-pages` branch).
+
+**GitHub Pages setup:** Settings → Pages → Source: "Deploy from a branch", Branch: `gh-pages` / `/ (root)`.
 
 To build manually:
 
@@ -35,5 +37,3 @@ To build manually:
 npm run build
 npm run preview
 ```
-
-bye!
