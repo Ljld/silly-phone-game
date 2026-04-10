@@ -35,3 +35,5 @@ To build manually:
 npm run build
 npm run preview
 ```
+
+bye!
