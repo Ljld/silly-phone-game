@@ -1,55 +1,20 @@
 <script setup>
-import { ref } from 'vue';
-import HomeScreen from './components/HomeScreen.vue';
-import GameManager from './components/GameManager.vue';
-import ScoreBoard from './components/ScoreBoard.vue';
+import { useRoute } from 'vue-router';
 
-const screen = ref('home');
-const roundsToWin = ref(3);
-const scores = ref({ p1: 0, p2: 0 });
-const lastWinner = ref(null);
-
-const startGame = () => {
-  scores.value = { p1: 0, p2: 0 };
-  lastWinner.value = null;
-  screen.value = 'game';
-};
-
-const onRoundWon = (winner) => {
-  scores.value[winner]++;
-  lastWinner.value = winner;
-  if (scores.value[winner] >= roundsToWin.value) {
-    screen.value = 'scoreboard';
-  }
-};
-
-const goHome = () => {
-  screen.value = 'home';
-};
+const route = useRoute();
 </script>
 
 <template>
   <div class="app-container">
-    <Transition name="fade" mode="out-in">
-      <HomeScreen
-        v-if="screen === 'home'"
-        @start="startGame"
-      />
-      <GameManager
-        v-else-if="screen === 'game'"
-        :scores="scores"
-        :rounds-to-win="roundsToWin"
-        @round-won="onRoundWon"
-        @quit="goHome"
-      />
-      <ScoreBoard
-        v-else-if="screen === 'scoreboard'"
-        :scores="scores"
-        :winner="lastWinner"
-        @play-again="startGame"
-        @home="goHome"
-      />
-    </Transition>
+    <nav v-if="route.name !== 'game'" class="app-nav">
+      <router-link to="/" class="nav-link">🎮 Game</router-link>
+      <router-link to="/city" class="nav-link">🏙️ City</router-link>
+    </nav>
+    <router-view v-slot="{ Component }">
+      <Transition name="fade" mode="out-in">
+        <component :is="Component" />
+      </Transition>
+    </router-view>
   </div>
 </template>
 
@@ -59,5 +24,33 @@ const goHome = () => {
   height: 100%;
   display: flex;
   flex-direction: column;
+}
+
+.app-nav {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--bg-medium);
+  z-index: 100;
+  flex-shrink: 0;
+}
+
+.nav-link {
+  color: var(--text-light);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  transition: background 0.2s;
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.nav-link.router-link-active {
+  background: linear-gradient(135deg, var(--p1-color), var(--p2-color));
 }
 </style>
