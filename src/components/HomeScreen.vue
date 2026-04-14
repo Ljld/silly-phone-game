@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 
-const emit = defineEmits(['start']);
+const emit = defineEmits(['start', 'navigate-city']);
 const titleEmoji = ref('🤪');
 const emojis = ['🤪', '🤡', '👻', '🎉', '🔥', '💥', '🍕', '🦄'];
 let emojiIndex = 0;
@@ -41,6 +41,10 @@ setInterval(() => {
       <button class="play-btn" @click="emit('start')">
         <span class="play-text">PLAY!</span>
         <span class="play-emoji">🎮</span>
+      </button>
+
+      <button class="city-btn" @click="emit('navigate-city')">
+        🏙️ Visit the City
       </button>
 
       <p class="tip">Tip: Turn your phone sideways for maximum silliness!</p>
@@ -135,8 +139,27 @@ setInterval(() => {
   font-size: 1.5rem;
 }
 
+.city-btn {
+  margin-top: 1rem;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-light);
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.6rem 1.5rem;
+  border-radius: 50px;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.city-btn:active {
+  transform: scale(0.95);
+}
+
+.city-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
 .tip {
-  margin-top: 1.5rem;
+  margin-top: 1rem;
   font-size: 0.75rem;
   color: #666;
 }
